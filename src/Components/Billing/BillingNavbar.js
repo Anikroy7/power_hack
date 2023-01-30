@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Billing.css'
 import BillingTable from './BillingTable';
 
-const BillingNavbar = ({ setOpenModal }) => {
+const BillingNavbar = ({ setOpenModal, openModal }) => {
 
     return (
         <section clas>
@@ -20,7 +20,7 @@ const BillingNavbar = ({ setOpenModal }) => {
             </section>
 
             {/* Billing Tabel */}
-            <BillingTable />
+            <BillingTable openModal={openModal} setOpenModal={setOpenModal} />
         </section>
     );
 };

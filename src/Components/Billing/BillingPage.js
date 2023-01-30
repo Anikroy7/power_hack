@@ -11,8 +11,8 @@ const BillingPage = () => {
 
     return < Layout >
         {/* Body */}
-        < BillingNavbar setOpenModal={setOpenModal} />
-        {openModal && <Modal />}
+        < BillingNavbar setOpenModal={setOpenModal} openModal={openModal} />
+
     </ Layout>
 
 }

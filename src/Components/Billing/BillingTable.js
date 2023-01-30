@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Loading from "../Shared/Loading";
+import Modal from "../Shared/Modal/Modal";
 
-const BillingTable = () => {
+const BillingTable = ({ setOpenModal, openModal }) => {
 
     const [billings, setBillings] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [updateBillling, setUpdatedBilling] = useState({})
 
     useEffect(() => {
         setLoading(true);
@@ -23,7 +25,6 @@ const BillingTable = () => {
                     toast.error(error);
                     setLoading(false)
                 }
-                console.log(billings);
                 if (billings) {
                     setBillings(billings);
                     setLoading(false)
@@ -31,7 +32,38 @@ const BillingTable = () => {
             })
     }, [])
 
-    console.log(billings, loading);
+
+    // Update billings
+    const handleUpdate = (_id) => {
+        fetch(`http://localhost:5000/api/update-billing/${_id}`, {
+            method: "PATCH",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('access-token')}`,
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+    }
+
+    const handleDelte = (_id) => {
+        fetch(`http://localhost:5000/api/delete-billing/${_id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('access-token')}`,
+            },
+        }).then(res => res.json())
+            .then(data => {
+                const { message, error } = data
+                if (message) {
+                    toast.success(message)
+                }
+                if (error) {
+                    toast.error(error)
+                }
+            })
+    }
 
     return <div className="overflow-x-auto">
         <table className="table table-compact w-full">
@@ -47,29 +79,39 @@ const BillingTable = () => {
             </thead>
             <tbody>
                 {
-                    billings.map(({ _id, fullName, email, phone, payableAmount }) => (<tr>
-                        <td>
-                            {
-                                loading ? <Loading /> : _id
-                            }
-                        </td>
-                        <td>{fullName}</td>
-                        <td>
-                            {email}
-                        </td>
-                        <td>{phone}</td>
-                        <td>{payableAmount}</td>
-                        <td>
-                            <button className="btn btn-xs">Edit</button>
-                            <span> | </span>
-                            <button className="btn btn-xs">Delete</button>
-                        </td>
-                    </tr>))
+                    billings.map((billing) => {
+                        const { _id, fullName, email, phone, payableAmount } = billing
+                        return <tr>
+                            <td>
+                                {
+                                    loading ? <Loading /> : _id
+                                }
+                            </td>
+                            <td>{fullName}</td>
+                            <td>
+                                {email}
+                            </td>
+                            <td>{phone}</td>
+                            <td>{payableAmount}</td>
+                            <td>
+                                <label
+                                    onClick={() => setUpdatedBilling(billing)} htmlFor="billingModal" className="bg-green-400 btn btn-xs rounded p-3 py-5">Edit</label>
+
+                                <span> | </span>
+                                <button
+                                    onClick={() => handleDelte(_id)}
+                                    className="btn btn-xs">Delete</button>
+                            </td>
+                        </tr>
+                    })
                 }
-                {/*  */}
             </tbody>
         </table>
-    </div>
+        {updateBillling && <Modal
+            updateBillling={updateBillling}
+            setUpdatedBilling={setUpdatedBilling}
+        />}
+    </div >
 }
 
 
