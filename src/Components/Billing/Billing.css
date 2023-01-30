@@ -1,0 +1,25 @@
+.billing_navbar_container {
+    padding: 0 50px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    align-items: center;
+}
+
+.billing_nav_left {
+    display: flex;
+    gap: 20px;
+}
+
+.billing_nav_left input {
+    border: 2px solid gray;
+    padding: 5px;
+}
+
+.billing_nav_right button {
+    border: none;
+    background: rgb(8, 75, 64);
+    padding: 10px;
+    color: white;
+    border-radius: 8px;
+}

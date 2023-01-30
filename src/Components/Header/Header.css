@@ -1,4 +1,7 @@
 .navbar_container {
     display: flex;
     justify-content: space-between;
+    background: rgb(3, 39, 41);
+    padding: 30px;
+    color: white;
 }
