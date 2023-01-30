@@ -1,9 +1,11 @@
 .billing_navbar_container {
-    padding: 0 50px;
     display: flex;
     justify-content: space-between;
-    margin-top: 30px;
+    padding: 30px;
     align-items: center;
+    height: 100px;
+    background: rgb(230, 207, 207);
+    margin: 0 auto;
 }
 
 .billing_nav_left {

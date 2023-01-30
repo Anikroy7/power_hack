@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { indigo } from "tailwindcss/colors";
 
 const Login = () => {
     const { register, handleSubmit } = useForm();
-    const [token, setToken] = useState("")
     const navigate = useNavigate();
 
-    if (token) {
-        console.log(token, 'lign');
-    }
+
 
     const onSubmit = data => {
         fetch("http://localhost:5000/api/login", {
@@ -28,10 +26,15 @@ const Login = () => {
                 if (data.message) {
                     toast.success(data.message)
                 }
-                const accesstoken = data?.data.token
+                const token = data.token;
+                console.log(token);
                 if (token) {
-                    localStorage.setItem('access-token', accesstoken);
-                    setToken(token)
+                    const getToken = localStorage.getItem('access-token');
+                    if (getToken) {
+                        localStorage.removeItem("authToken")
+                    }
+                    localStorage.setItem('access-token', token);
+                    navigate('/')
                 }
             })
 

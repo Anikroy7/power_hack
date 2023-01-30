@@ -1,19 +1,20 @@
-import React from "react";
-import Header from "../Header/Header";
+import React, { useState } from "react";
 import Layout from "../Layout/Layout";
+import Modal from "../Shared/Modal/Modal";
 import BillingNavbar from "./BillingNavbar";
 
 
-const BillingPage = () => {
-    return (
-        <Layout>
-            {/* This is our header */}
-            <Header />
 
-            {/* Body */}
-            <BillingNavbar />
-        </Layout>
-    );
-};
+const BillingPage = () => {
+    const [openModal, setOpenModal] = useState(false);
+
+
+    return < Layout >
+        {/* Body */}
+        < BillingNavbar setOpenModal={setOpenModal} />
+        {openModal && <Modal />}
+    </ Layout>
+
+}
 
 export default BillingPage;
